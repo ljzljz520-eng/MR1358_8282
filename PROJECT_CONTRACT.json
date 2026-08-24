@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "metrics": {
+    "production_loc": 2373,
+    "production_files": 40,
+    "production_packages": 15,
+    "test_files": 9,
+    "production_functions": 229,
+    "decision_points": 325
+  },
+  "persistence": {
+    "module": "modernc.org/sqlite",
+    "entities": [
+      "NightTourRoute",
+      "TourBooking",
+      "BookingConfirmation",
+      "MeetingPoint"
+    ],
+    "reopen_test": "TestPersistenceSurvivesReopen"
+  },
+  "workflows": [
+    {
+      "steps": [
+        "list enabled night tour routes",
+        "open the selected route detail by route ID",
+        "submit a deterministic two-person booking",
+        "confirm the booking with its route meeting point and notice"
+      ],
+      "test": "TestNightTourConfirmationUsesOwnMeetingPoint"
+    },
+    {
+      "steps": [
+        "search routes by district and term",
+        "preview the selected route",
+        "reserve capacity and save a pending booking",
+        "confirm the pending booking and return a guest confirmation"
+      ],
+      "test": "TestWorkflowSearchThenReserve"
+    },
+    {
+      "steps": [
+        "look up a pending booking by its deterministic ID",
+        "validate replacement guest email and party size",
+        "save the changed pending booking",
+        "retrieve the changed booking and inspect its audit event"
+      ],
+      "test": "TestWorkflowChangePending"
+    }
+  ]
+}
